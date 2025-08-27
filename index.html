@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management de Proximité - Formation Compagnons-Chefs d'équipe</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .header .dates-location {
+            background: rgba(255,255,255,0.2);
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: block;
+            margin: 0.5rem auto;
+        }
+
+        /* Info Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .info-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Accordeon Programme */
+        .accordion {
+            margin: 2rem 0;
+        }
+
+        .accordion-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .accordion-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+
+        .accordion-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .accordion-icon {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion-content.active {
+            max-height: 1000px;
+        }
+
+        .accordion-content-inner {
+            padding: 1.5rem;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Objectifs */
+        .objectifs-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .objectifs-list li {
+            background: #f8f9fa;
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .objectifs-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 1rem;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Map */
+        .map-container {
+            width: 100%;
+            height: 300px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            margin: 2rem 0;
+        }
+
+        /* Downloads */
+        .downloads {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Citation */
+        .citation {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .citation::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -1rem;
+            left: 2rem;
+            opacity: 0.3;
+        }
+
+        .citation blockquote {
+            font-size: 1.3rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .citation cite {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            display: block;
+            margin: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 2rem 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .downloads {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>Management de Proximité</h1>
+                <p class="subtitle">Formation pour Compagnons - Chefs d'équipe</p>
+                <div class="dates-location">
+                    <i class="fas fa-calendar-alt"></i> 8 et 9 septembre 2025 • 
+                    <i class="fas fa-map-marker-alt"></i> Saint-Rémy-lès-Chevreuses
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Information générale -->
+            <section class="section">
+                <h2 class="section-title">Informations Générales</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3><i class="fas fa-users"></i> Public</h3>
+                        <p><strong>Participants :</strong> Compagnons - Chefs d'équipe</p>
+                        <p><strong>Prérequis :</strong> Pas de pré-requis</p>
+                        <p><strong>Participants :</strong> 8 à 12 personnes maximum</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-clock"></i> Organisation</h3>
+                        <p><strong>Durée :</strong> 2 jours (14 heures)</p>
+                        <p><strong>Horaires :</strong> 7 heures par jour</p>
+                        <p><strong>Modalité :</strong> Formation en présentiel</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-certificate"></i> Certification</h3>
+                        <p><strong>Évaluation :</strong> Questionnaire d'évaluation des acquis</p>
+                        <p><strong>Attestation :</strong> Remise d'une attestation de formation</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-universal-access"></i> Accessibilité</h3>
+                        <p>Nos lieux de formation sont équipés pour accueillir les personnes en situation de handicap.</p>
+                        <p><strong>Contact :</strong> Nous contacter pour toute adaptation particulière.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Objectifs -->
+            <section class="section">
+                <h2 class="section-title">Objectifs Professionnels</h2>
+                <p style="text-align: center; margin-bottom: 2rem;">À l'issue de cette formation, les participants seront capables de :</p>
+                <ul class="objectifs-list">
+                    <li>Capitaliser sur leurs forces et gagner en efficacité managériale</li>
+                    <li>Formuler une demande claire et la faire respecter</li>
+                    <li>Développer leur impact et renforcer la motivation de leur équipe</li>
+                </ul>
+            </section>
+
+            <!-- Citation inspirante -->
+            <section class="citation">
+                <blockquote>
+                    "Ce n'est pas assez d'avoir l'esprit bon. Le principal est de l'appliquer bien."
+                </blockquote>
+                <cite>— René Descartes</cite>
+            </section>
+
+            <!-- Programme -->
+            <section class="section">
+                <h2 class="section-title">Programme Détaillé</h2>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3><i class="fas fa-calendar-day"></i> Jour 1 - Le rôle et le positionnement du manager de proximité</h3>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <h4>Matin (3h30)</h4>
+                                <ul>
+                                    <li><strong>Lancement de la formation :</strong> présentation du programme, cadre de fonctionnement, présentations des participants</li>
+                                    <li><strong>Appréhender le rôle d'un manager de proximité :</strong> activité collective sur le rôle et missions, challenges en sous-groupes</li>
+                                    <li><strong>Conclure sur le rôle RH du manager :</strong> cycle managérial et rôle d'alerte</li>
+                                    <li><strong>S'affirmer en tant que manager :</strong> ajuster sa communication, mises en situation pratiques</li>
+                                </ul>
+                                
+                                <h4>Après-midi (3h30)</h4>
+                                <ul>
+                                    <li><strong>Ancrage des fondamentaux de la communication :</strong> clarté des consignes, questionnement et reformulation</li>
+                                    <li><strong>Développer une autorité saine :</strong> dosage empathie/confiance, gestion de l'égo</li>
+                                    <li><strong>Mises en situation :</strong> feedback, management d'anciens collègues, demandes d'aide</li>
+                                    <li><strong>Formuler un objectif SMART :</strong> exercices pratiques en sous-groupes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3><i class="fas fa-calendar-day"></i> Jour 2 - L'animation et l'organisation de l'équipe au quotidien</h3>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <h4>Matin (3h30)</h4>
+                                <ul>
+                                    <li><strong>Ancrer les apprentissages :</strong> retour sur la première journée</li>
+                                    <li><strong>Renforcer son agilité managériale :</strong> modèle des 4 couleurs, adaptation de la communication</li>
+                                    <li><strong>Identifier mes forces de manager :</strong> ateliers en groupes pour valoriser les compétences</li>
+                                    <li><strong>Développer ses collaborateurs :</strong> délégation, droit à l'erreur, feedback constructif</li>
+                                </ul>
+                                
+                                <h4>Après-midi (3h30)</h4>
+                                <ul>
+                                    <li><strong>Remonter un problème efficacement :</strong> structurer sa communication avec son manager</li>
+                                    <li><strong>Organiser son activité et celle de l'équipe :</strong> Matrice d'Eisenhower pour la gestion des priorités</li>
+                                    <li><strong>Construction du plan d'action personnel :</strong> méthode KISS</li>
+                                    <li><strong>Bilan de formation</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3><i class="fas fa-tools"></i> Méthodes Pédagogiques</h3>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <ul>
+                                    <li><strong>Outils pédagogiques :</strong> Exposés théoriques, études de cas concrets, jeux de rôles, mises en situation</li>
+                                    <li><strong>Supports pédagogiques :</strong> Diapositives synthétiques, fiches outil, feuille de route</li>
+                                    <li><strong>Documentation :</strong> Livret avec fiches outils, bibliographie</li>
+                                    <li><strong>Référente pédagogique et handicap :</strong> Elodie Costes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Localisation -->
+            <section class="section">
+                <h2 class="section-title">Lieu de Formation</h2>
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2632.8!2d2.0796!3d48.7096!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDjCsDQyJzM0LjciTiAywrAwNCc0Ni42IkU!5e0!3m2!1sfr!2sfr!4v1"
+                        width="100%" 
+                        height="300" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="info-card">
+                    <h3><i class="fas fa-map-marker-alt"></i> Adresse</h3>
+                    <p>Saint-Rémy-lès-Chevreuses, Île-de-France, France</p>
+                    <p><i class="fas fa-info-circle"></i> Lieu exact à confirmer avec les participants</p>
+                </div>
+            </section>
+
+            <!-- Téléchargements -->
+            <section class="section">
+                <h2 class="section-title">Documentation</h2>
+                <div class="downloads">
+                    <a href="#" class="download-btn" onclick="alert('Le programme détaillé sera envoyé par email')">
+                        <i class="fas fa-download"></i>
+                        Programme Détaillé (PDF)
+                    </a>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Formation</h3>
+                    <p><i class="fas fa-building"></i> Inovéoz Formation</p>
+                    <p><i class="fas fa-user"></i> Référente : Elodie Costes</p>
+                    <p><i class="fas fa-envelope"></i> Contact : formation@innoveoz.fr</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Informations Légales</h3>
+                    <div class="footer-links">
+                        <a href="#"><i class="fas fa-universal-access"></i> Politique d'inclusion</a>
+                        <a href="#"><i class="fas fa-wheelchair"></i> Gestion du handicap</a>
+                        <a href="#"><i class="fas fa-leaf"></i> Engagement RSE</a>
+                    </div>
+                </div>
+            </div>
+            <div style="border-top: 1px solid #34495e; padding-top: 1rem; margin-top: 1rem;">
+                <p>&copy; 2025 Inovéoz Formation - Tous droits réservés</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.accordion-icon');
+            
+            // Close all other accordion items
+            document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                    otherItem.querySelector('.accordion-content').classList.remove('active');
+                }
+            });
+            
+            // Toggle current item
+            item.classList.toggle('active');
+            content.classList.toggle('active');
+        }
+
+        // Auto-open first accordion item
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstAccordion = document.querySelector('.accordion-item .accordion-header');
+            if (firstAccordion) {
+                toggleAccordion(firstAccordion);
+            }
+        });
+    </script>
+</body>
+</html>
